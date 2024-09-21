@@ -1,0 +1,11 @@
+[package]
+name = "etcd-bin-vendored-linux-s390x"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description.workspace = true
+authors.workspace = true
+
+[dependencies]

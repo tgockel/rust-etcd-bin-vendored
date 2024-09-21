@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Pull the binaries for etcd.
+set -ex
+
+PROJECT_ROOT=$(readlink -f $(dirname "$0")/..)
+WORKING_DIR="${PROJECT_ROOT}/target/download"
+mkdir -p "${WORKING_DIR}"
+cd "${WORKING_DIR}"
+
+VERSION=$(grep -P '^version =' "${PROJECT_ROOT}/Cargo.toml" | grep -Po '\d+\.\d+\.\d+')
+
+update_arch() {
+  ARCH="$1"
+  CRATE="$2"
+  PKG_FMT="$3"
+  EXE="$4"
+
+  ARCHIVE_FILE="${WORKING_DIR}/etcd-v${VERSION}-${ARCH}.${PKG_FMT}"
+  if [[ ! -e "${ARCHIVE_FILE}" ]]; then
+    BIN_URL="https://github.com/etcd-io/etcd/releases/download/v${VERSION}/etcd-v${VERSION}-${ARCH}.${PKG_FMT}"
+    curl -sL "${BIN_URL}" --output "${ARCHIVE_FILE}" --fail-with-body || (
+        set +x
+        >&2 printf "failed to fetch ${BIN_URL}: %s\n" "$(cat "${ARCHIVE_FILE}")"
+        rm "${ARCHIVE_FILE}"
+        exit 1
+      )
+  fi
+
+  case "${PKG_FMT}" in
+    tar.gz)
+      tar xzvf "${ARCHIVE_FILE}" "etcd-v${VERSION}-${ARCH}/etcd"
+      ;;
+    zip)
+      unzip -u "${ARCHIVE_FILE}"
+      ;;
+    *)
+      >&2 echo "unrecognized package format ${PKG_FMT}"
+      exit 1
+      ;;
+  esac
+  cp "${WORKING_DIR}/etcd-v${VERSION}-${ARCH}/etcd${EXE}" "${PROJECT_ROOT}/${CRATE}/bin/etcd${EXE}"
+}
+
+update_arch "linux-amd64"   "etcd-bin-vendored-linux-amd64"   tar.gz
+update_arch "linux-arm64"   "etcd-bin-vendored-linux-arm64"   tar.gz
+update_arch "linux-ppc64le" "etcd-bin-vendored-linux-ppc64le" tar.gz
+update_arch "linux-s390x"   "etcd-bin-vendored-linux-s390x"   tar.gz
+update_arch "darwin-amd64"  "etcd-bin-vendored-darwin-amd64"  zip
+update_arch "darwin-arm64"  "etcd-bin-vendored-darwin-arm64"  zip
+update_arch "windows-amd64" "etcd-bin-vendored-windows-amd64" zip .exe

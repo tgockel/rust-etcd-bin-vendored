@@ -1,0 +1,18 @@
+[package]
+name = "etcd-bin-vendored"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description.workspace = true
+authors.workspace = true
+
+[dependencies]
+etcd-bin-vendored-linux-amd64.workspace = true
+etcd-bin-vendored-linux-arm64.workspace = true
+etcd-bin-vendored-linux-ppc64le.workspace = true
+etcd-bin-vendored-linux-s390x.workspace = true
+etcd-bin-vendored-darwin-amd64.workspace = true
+etcd-bin-vendored-darwin-arm64.workspace = true
+etcd-bin-vendored-windows-amd64.workspace = true
