@@ -44,7 +44,7 @@ update_arch() {
 update_arch "linux-amd64"   "etcd-bin-vendored-linux-amd64"   tar.gz
 update_arch "linux-arm64"   "etcd-bin-vendored-linux-arm64"   tar.gz
 update_arch "linux-ppc64le" "etcd-bin-vendored-linux-ppc64le" tar.gz
-update_arch "linux-s390x"   "etcd-bin-vendored-linux-s390x"   tar.gz
+#update_arch "linux-s390x"   "etcd-bin-vendored-linux-s390x"   tar.gz
 update_arch "darwin-amd64"  "etcd-bin-vendored-darwin-amd64"  zip
-update_arch "darwin-arm64"  "etcd-bin-vendored-darwin-arm64"  zip
+#update_arch "darwin-arm64"  "etcd-bin-vendored-darwin-arm64"  zip
 update_arch "windows-amd64" "etcd-bin-vendored-windows-amd64" zip .exe

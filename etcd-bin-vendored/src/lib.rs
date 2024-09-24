@@ -22,9 +22,9 @@ enum Crate {
     LinuxAMD64,
     LinuxARM64,
     LinuxPPC64LE,
-    LinuxS390x,
+    //TODO(3.5): LinuxS390x,
     MacAMD64,
-    MacARM64,
+    //TODO(3.5): MacARM64,
     WindowsAMD64,
 }
 
@@ -34,9 +34,9 @@ impl Crate {
             ("linux", "x86_64") => Ok(Self::LinuxAMD64),
             ("linux", "aarch64") => Ok(Self::LinuxARM64),
             ("linux", "powerpc64") => Ok(Self::LinuxPPC64LE),
-            ("linux", "s390x") => Ok(Self::LinuxS390x),
+            //TODO(3.5): ("linux", "s390x") => Ok(Self::LinuxS390x),
             ("macos", "x86_64") => Ok(Self::MacAMD64),
-            ("macos", "aarch64") => Ok(Self::MacARM64),
+            //TODO(3.5): ("macos", "aarch64") => Ok(Self::MacARM64),
             ("windows", "x86_64") => Ok(Self::WindowsAMD64),
             (os, arch) => Err(ArchitectureNotSupported { os, arch }),
         }
@@ -52,9 +52,9 @@ pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
         Crate::LinuxAMD64 => etcd_bin_vendored_linux_amd64::etcd_bin_path(),
         Crate::LinuxARM64 => etcd_bin_vendored_linux_arm64::etcd_bin_path(),
         Crate::LinuxPPC64LE => etcd_bin_vendored_linux_ppc64le::etcd_bin_path(),
-        Crate::LinuxS390x => etcd_bin_vendored_linux_s390x::etcd_bin_path(),
+        //TODO(3.5): Crate::LinuxS390x => etcd_bin_vendored_linux_s390x::etcd_bin_path(),
         Crate::MacAMD64 => etcd_bin_vendored_darwin_amd64::etcd_bin_path(),
-        Crate::MacARM64 => etcd_bin_vendored_darwin_arm64::etcd_bin_path(),
+        //TODO(3.5): Crate::MacARM64 => etcd_bin_vendored_darwin_arm64::etcd_bin_path(),
         Crate::WindowsAMD64 => etcd_bin_vendored_windows_amd64::etcd_bin_path(),
     };
 

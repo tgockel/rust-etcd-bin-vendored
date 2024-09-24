@@ -5,9 +5,7 @@ The core of this library is the `etcd_bin_path` function, which gets a path to a
 this operating system and architecture.
 
 ```rust
-# let _ =
-etcd_bin_vendored::etcd_bin_path().unwrap()
-# ;
+etcd_bin_vendored::etcd_bin_path().unwrap();
 ```
 
 ## Caveats
@@ -27,13 +25,13 @@ This is for unit testing only.
 
 At the time of writing, the `etcd` binary is around 20 MB.
 This is not huge by itself, but the base `etcd-bin-vendored` crate pulls in a prebuilt binary for every supported
-architecture via its transitive dependencies (`etcd-bin-vendored-linux-x86_64`, `etcd-bin-vendored-win32`, etc.).
+architecture via its transitive dependencies (`etcd-bin-vendored-linux-arm64`, `etcd-bin-vendored-windows-amd64`, etc.).
 Even though only one of these will work for your platform, since Cargo downloads transitive dependencies before
 deciding if they are enabled, these unused binaries will be downloaded.
 
 To prevent this, you can select only supported platforms manually.
 For example, if you know your system is only ever used on 64-bit Linux, you can use the platform-specific crate
-`etcd-bin-vendored-linux-x86_64` and call the platform-specific `etcd_bin_path` directly.
+`etcd-bin-vendored-linux-amd64` and call the platform-specific `etcd_bin_path` directly.
 The platform-specific functions will always return `Ok`, so it is your responsibility to make sure you use the proper
 crate.
 
