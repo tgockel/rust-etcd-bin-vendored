@@ -1,5 +1,5 @@
 [workspace.package]
-version = "0.3.434"
+version = "0.3.514"
 edition = "2021"
 license = "Apache-2.0"
 homepage = "https://github.com/tgockel/rust-etcd-bin-vendored"
@@ -21,10 +21,10 @@ members = [
 ]
 
 [workspace.dependencies]
-etcd-bin-vendored-linux-amd64   = { path = "etcd-bin-vendored-linux-amd64",   version = "=0.3.434" }
-etcd-bin-vendored-linux-arm64   = { path = "etcd-bin-vendored-linux-arm64",   version = "=0.3.434" }
-etcd-bin-vendored-linux-ppc64le = { path = "etcd-bin-vendored-linux-ppc64le", version = "=0.3.434" }
-#etcd-bin-vendored-linux-s390x   = { path = "etcd-bin-vendored-linux-s390x",   version = "=0.3.434" }
-etcd-bin-vendored-darwin-amd64  = { path = "etcd-bin-vendored-darwin-amd64",  version = "=0.3.434" }
-#etcd-bin-vendored-darwin-arm64  = { path = "etcd-bin-vendored-darwin-arm64",  version = "=0.3.434" }
-etcd-bin-vendored-windows-amd64 = { path = "etcd-bin-vendored-windows-amd64", version = "=0.3.434" }
+etcd-bin-vendored-linux-amd64   = { path = "etcd-bin-vendored-linux-amd64",   version = "=0.3.514" }
+etcd-bin-vendored-linux-arm64   = { path = "etcd-bin-vendored-linux-arm64",   version = "=0.3.514" }
+etcd-bin-vendored-linux-ppc64le = { path = "etcd-bin-vendored-linux-ppc64le", version = "=0.3.514" }
+etcd-bin-vendored-linux-s390x   = { path = "etcd-bin-vendored-linux-s390x",   version = "=0.3.514" }
+etcd-bin-vendored-darwin-amd64  = { path = "etcd-bin-vendored-darwin-amd64",  version = "=0.3.514" }
+etcd-bin-vendored-darwin-arm64  = { path = "etcd-bin-vendored-darwin-arm64",  version = "=0.3.514" }
+etcd-bin-vendored-windows-amd64 = { path = "etcd-bin-vendored-windows-amd64", version = "=0.3.514" }
