@@ -8,6 +8,35 @@ this operating system and architecture.
 etcd_bin_vendored::etcd_bin_path().unwrap();
 ```
 
+## Platform Specific
+
+To minimize library size, the actual binaries are packaged inside of platform-specific libraries.
+For example, the [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64] crate contains the binary for running
+on Linux AMD64.
+By default, the platform-specific crate is enabled for the detected target.
+In other words, the [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64] package is a required dependency
+when you are running on MacOS with ARM64 silicon.
+
+You can also select supported platforms manually.
+For example, if you know your system is only ever ARM64 Linux, you can use the platform-specific `etcd_bin_path`
+directly.
+Take care with this, as the binary is always available, but it might not be runnable on your architecture.
+
+| `target_os` | `target_arch` | `feature`       | Crate                                                                |
+|-------------|---------------|-----------------|:---------------------------------------------------------------------|
+| `linux`     | `x86_64`      | `linux-amd64`   | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
+| `linux`     | `aarch64`     | `linux-arm64`   | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
+| `linux`     | `powerpc64`   | `linux-ppc64le` | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
+| `linux`     | `s390x`       | `linux-s390x`   | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
+| `macos`     | `x86_64`      | `macos-amd64`   | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
+| `macos`     | `aarch64`     | `macos-arm64`   | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
+| `windows`   | `x86_64`      | `windows-amd64` | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
+
+## Versioning
+
+The versions of this library match the `etcd` version.
+So, pulling this library at version `3.5.23` means you get the binaries for etcd release `3.5.23`.
+
 ## Caveats
 
 ### Not Suitable for Distribution
@@ -21,24 +50,10 @@ That is an advantage because you should not be running a critical service like `
 random crate.
 This is for unit/integration testing only.
 
-### Transitive Dependency Bloat
-
-At the time of writing, the `etcd` binary is around 20 MB.
-This is not huge by itself, but the base `etcd-bin-vendored` crate pulls in a prebuilt binary for every supported
-architecture via its transitive dependencies (`etcd-bin-vendored-linux-arm64`, `etcd-bin-vendored-windows-amd64`, etc.).
-Even though only one of these will work for your platform, since Cargo downloads transitive dependencies before
-deciding if they are enabled, these unused binaries will be downloaded.
-
-To prevent this, you can select only supported platforms manually.
-For example, if you know your system is only ever used on 64-bit Linux, you can use the platform-specific crate
-`etcd-bin-vendored-linux-amd64` and call the platform-specific `etcd_bin_path` directly.
-The platform-specific functions will always return `Ok`, so it is your responsibility to make sure you use the proper
-crate.
-
-Another thing to consider doing is isolating tests which actually use `etcd` to their own crate and only pulling in the
-`etcd-bin-vendored` crate for these integration tests.
-
-## Versioning
-
-The versions of this library match the `etcd` version.
-So, pulling this library at version `3.5.23` means you get the binaries for etcd release `3.5.23`.
+[etcd-bin-vendored-linux-amd64]:   https://docs.rs/etcd-bin-vendored-linux-amd64/latest/etcd_bin_vendored_linux_amd64/
+[etcd-bin-vendored-linux-arm64]:   https://docs.rs/etcd-bin-vendored-linux-arm64/latest/etcd_bin_vendored_linux_arm64/
+[etcd-bin-vendored-linux-ppc64le]: https://docs.rs/etcd-bin-vendored-linux-ppc64le/latest/etcd_bin_vendored_linux_ppc64le/
+[etcd-bin-vendored-linux-s390x]:   https://docs.rs/etcd-bin-vendored-linux-s390x/latest/etcd_bin_vendored_linux_s390x/
+[etcd-bin-vendored-darwin-amd64]:  https://docs.rs/etcd-bin-vendored-darwin-amd64/latest/etcd_bin_vendored_darwin_amd64/
+[etcd-bin-vendored-darwin-arm64]:  https://docs.rs/etcd-bin-vendored-darwin-arm64/latest/etcd_bin_vendored_darwin_arm64/
+[etcd-bin-vendored-windows-amd64]: https://docs.rs/etcd-bin-vendored-windows-amd64/latest/etcd_bin_vendored_windows_amd64/
