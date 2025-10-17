@@ -19,7 +19,7 @@ If you try to use this function outside of a Cargo test on the system it was bui
 The advantage of this is that it makes it impossible to use this in production.
 That is an advantage because you should not be running a critical service like `etcd` from a binary you pulled from some
 random crate.
-This is for unit testing only.
+This is for unit/integration testing only.
 
 ### Transitive Dependency Bloat
 
@@ -41,6 +41,4 @@ Another thing to consider doing is isolating tests which actually use `etcd` to 
 ## Versioning
 
 The versions of this library match the `etcd` version.
-Currently, there is a leading `0` and, due to Cargo only accepting `{MAJOR}.{MINOR}.{PATCH}`, the version of the `MINOR`
-and `PATCH` are crammed into the `PATCH` field.
-So, `etcd` version 3.4.34 is 0.3.434 of this library.
+So, pulling this library at version `3.5.23` means you get the binaries for etcd release `3.5.23`.
