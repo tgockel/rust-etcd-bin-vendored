@@ -110,12 +110,12 @@ pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
     let detected = Crate::detect()?;
 
     match_platform!(detected;
-        (LinuxAMD64,    "linux",    "x86_64",    "linux-amd64",    etcd_bin_vendored_linux_amd64),
-        (LinuxARM64,    "linux",    "aarch64",   "linux-arm64",    etcd_bin_vendored_linux_arm64),
-        (LinuxPPC64LE,  "linux",    "powerpc64", "linux-ppc64le",  etcd_bin_vendored_linux_ppc64le),
-        (LinuxS390x,    "linux",    "s390x",     "linux-s390x",    etcd_bin_vendored_linux_s390x),
-        (MacAMD64,      "macos",    "x86_64",    "macos-amd64",    etcd_bin_vendored_darwin_amd64),
-        (MacARM64,      "macos",    "aarch64",   "macos-arm64",    etcd_bin_vendored_darwin_arm64),
-        (WindowsAMD64,  "windows",  "x86_64",    "windows-amd64",  etcd_bin_vendored_windows_amd64),
+        (LinuxAMD64,    "linux",    "x86_64",    "linux-x86_64",    etcd_bin_vendored_linux_amd64),
+        (LinuxARM64,    "linux",    "aarch64",   "linux-aarch64",   etcd_bin_vendored_linux_arm64),
+        (LinuxPPC64LE,  "linux",    "powerpc64", "linux-powerpc64", etcd_bin_vendored_linux_ppc64le),
+        (LinuxS390x,    "linux",    "s390x",     "linux-s390x",     etcd_bin_vendored_linux_s390x),
+        (MacAMD64,      "macos",    "x86_64",    "macos-x86_64",    etcd_bin_vendored_darwin_amd64),
+        (MacARM64,      "macos",    "aarch64",   "macos-aarch64",   etcd_bin_vendored_darwin_arm64),
+        (WindowsAMD64,  "windows",  "x86_64",    "windows-x86_64",  etcd_bin_vendored_windows_amd64),
     )
 }

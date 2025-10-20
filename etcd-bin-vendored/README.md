@@ -52,15 +52,26 @@ For example, if you know your system is only ever ARM64 Linux, you can use the p
 directly.
 Take care with this, as the binary is always available, but it might not be runnable on your architecture.
 
-| `target_os` | `target_arch` | `feature`       | Crate                                                                |
-|-------------|---------------|-----------------|:---------------------------------------------------------------------|
-| `linux`     | `x86_64`      | `linux-amd64`   | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
-| `linux`     | `aarch64`     | `linux-arm64`   | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
-| `linux`     | `powerpc64`   | `linux-ppc64le` | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
-| `linux`     | `s390x`       | `linux-s390x`   | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
-| `macos`     | `x86_64`      | `macos-amd64`   | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
-| `macos`     | `aarch64`     | `macos-arm64`   | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
-| `windows`   | `x86_64`      | `windows-amd64` | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
+| `target_os` | `target_arch` | `feature`         | Crate                                                                |
+|-------------|---------------|-------------------|:---------------------------------------------------------------------|
+| `linux`     | `x86_64`      | `linux-x86_64`    | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
+| `linux`     | `aarch64`     | `linux-aarch64`   | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
+| `linux`     | `powerpc64`   | `linux-powerpc64` | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
+| `linux`     | `s390x`       | `linux-s390x`     | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
+| `macos`     | `x86_64`      | `macos-x86_64`    | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
+| `macos`     | `aarch64`     | `macos-aarch64`   | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
+| `windows`   | `x86_64`      | `windows-x86_64`  | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
+
+> **Note: Naming**
+>
+> There is a bit of incongruity between the platform-specific feature names and their respective crate names; e.g.: the
+> `macos-aarch64` feature maps to the `etcd-bin-vendored-darwin-arm64` crate.
+> The reason for this is the features map to the Rust conventions for
+> [`target_os`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_os) and
+> [`target_arch`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_arch), while the crates map to
+> [`GOOS` and `GOARCH` platform conventions](https://pkg.go.dev/internal/platform), which `etcd` uses directly.
+> My thinking is that someone using the meta-crate will be more familiar with Rust conventions, while someone looking to
+> pull a specific binary will be more familiar with Go conventions.
 
 ## Versioning
 
