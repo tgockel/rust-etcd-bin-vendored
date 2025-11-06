@@ -12,15 +12,24 @@ This is meant to be used as the program for an [`std::process::Command`].
 To quickly spin up an `etcd` server for testing purposes, do something like this:
 
 ```rust
+// If you want to run multiple etcd servers at a time, you should vary
+// the directory and ports.
+let data_dir    = "/tmp/etcd-data-dir";
+let client_port = 2379u16;
+let peer_port   = 2380u16;
+
 let etcd_path = etcd_bin_vendored::etcd_bin_path()
     .expect("etcd-bin-vendored should provide a valid path");
-let client_port = 2379u16; // <- randomize it
 let mut command = std::process::Command::new(etcd_path);
 command
+    .arg("--data-dir")
+    .arg(data_dir)
     .arg("--listen-client-urls")
     .arg(format!("http://127.0.0.1:{client_port}"))
     .arg("--advertise-client-urls")
-    .arg(format!("http://127.0.0.1:{client_port}"));
+    .arg(format!("http://127.0.0.1:{client_port}"))
+    .arg("--listen-peer-urls")
+    .arg(format!("http://127.0.0.1:{peer_port}"));
 let mut process = command.spawn().expect("failed to launch etcd");
 
 // Do things with a client library
@@ -30,13 +39,6 @@ println!("etcd running -- listening at 'http://127.0.0.1:{client_port}'");
 process.kill().expect("failed to kill etcd");
 process.wait().expect("waiting for etcd to stop was not successful");
 ```
-
-Note that the code above will cause `etcd` to use the current working directory as the data directory, so you will see a
-directory named `default.etcd` appear wherever you ran this from.
-To prevent this, you can use [`tempdir`][tempdir] and the `--data-dir` argument so you don't end up testing with stale
-data.
-It is also good practice to pick a random unused `client_port` so you can run tests in parallel.
-There is a good argument for moving these to a generic helper library.
 
 ## Platform Specific
 
@@ -76,7 +78,7 @@ Take care with this, as the binary is always available, but it might not be runn
 ## Versioning
 
 The versions of this library match the `etcd` version.
-So, pulling this library at version `3.5.23` means you get the binaries for etcd release `3.5.23`.
+So, pulling this library at version `3.6.2` means you get the binaries for etcd release `3.6.2`.
 
 ## Caveats
 
@@ -112,4 +114,3 @@ If I have not done this, [open an issue][new-issue] with a "security" tag.
 [etcd-bin-vendored-windows-amd64]: https://docs.rs/etcd-bin-vendored-windows-amd64/latest/etcd_bin_vendored_windows_amd64/
 [etcd-releases]:                   https://github.com/etcd-io/etcd/releases
 [new-issue]:                       https://github.com/tgockel/rust-etcd-bin-vendored/issues/new
-[tempdir]:                         https://docs.rs/tempdir/latest/tempdir/
