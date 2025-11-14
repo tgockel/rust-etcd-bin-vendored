@@ -50,9 +50,7 @@ enum Crate {
     LinuxAMD64,
     LinuxARM64,
     LinuxPPC64LE,
-    LinuxS390x,
     MacAMD64,
-    MacARM64,
     WindowsAMD64,
 }
 
@@ -62,9 +60,7 @@ impl fmt::Display for Crate {
             Self::LinuxAMD64 => write!(f, "linux-amd64"),
             Self::LinuxARM64 => write!(f, "linux-arm64"),
             Self::LinuxPPC64LE => write!(f, "linux-ppc64le"),
-            Self::LinuxS390x => write!(f, "linux-s390x"),
             Self::MacAMD64 => write!(f, "macos-amd64"),
-            Self::MacARM64 => write!(f, "macos-arm64"),
             Self::WindowsAMD64 => write!(f, "windows-amd64"),
         }
     }
@@ -76,9 +72,7 @@ impl Crate {
             ("linux", "x86_64") => Ok(Self::LinuxAMD64),
             ("linux", "aarch64") => Ok(Self::LinuxARM64),
             ("linux", "powerpc64") => Ok(Self::LinuxPPC64LE),
-            ("linux", "s390x") => Ok(Self::LinuxS390x),
             ("macos", "x86_64") => Ok(Self::MacAMD64),
-            ("macos", "aarch64") => Ok(Self::MacARM64),
             ("windows", "x86_64") => Ok(Self::WindowsAMD64),
             (os, arch) => Err(ArchitectureNotSupported {
                 inner: ArchitectureNotSupportedInner::Unknown { os, arch },
@@ -113,9 +107,7 @@ pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
         (LinuxAMD64,    "linux",    "x86_64",    "linux-x86_64",    etcd_bin_vendored_linux_amd64),
         (LinuxARM64,    "linux",    "aarch64",   "linux-aarch64",   etcd_bin_vendored_linux_arm64),
         (LinuxPPC64LE,  "linux",    "powerpc64", "linux-powerpc64", etcd_bin_vendored_linux_ppc64le),
-        (LinuxS390x,    "linux",    "s390x",     "linux-s390x",     etcd_bin_vendored_linux_s390x),
         (MacAMD64,      "macos",    "x86_64",    "macos-x86_64",    etcd_bin_vendored_darwin_amd64),
-        (MacARM64,      "macos",    "aarch64",   "macos-aarch64",   etcd_bin_vendored_darwin_arm64),
         (WindowsAMD64,  "windows",  "x86_64",    "windows-x86_64",  etcd_bin_vendored_windows_amd64),
     )
 }
