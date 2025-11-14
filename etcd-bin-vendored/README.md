@@ -57,9 +57,7 @@ Take care with this, as the binary is always available, but it might not be runn
 | `linux`     | `x86_64`      | `linux-x86_64`    | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
 | `linux`     | `aarch64`     | `linux-aarch64`   | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
 | `linux`     | `powerpc64`   | `linux-powerpc64` | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
-| `linux`     | `s390x`       | `linux-s390x`     | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
 | `macos`     | `x86_64`      | `macos-x86_64`    | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
-| `macos`     | `aarch64`     | `macos-aarch64`   | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
 | `windows`   | `x86_64`      | `windows-x86_64`  | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
 
 > **Note: Naming**
