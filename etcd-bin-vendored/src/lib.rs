@@ -73,7 +73,7 @@ impl Crate {
             ("linux", "aarch64") => Ok(Self::LinuxARM64),
             ("linux", "powerpc64") => Ok(Self::LinuxPPC64LE),
             ("macos", "x86_64") => Ok(Self::MacAMD64),
-            ("windows", "x86_64") => Ok(Self::WindowsAMD64),
+            ("windows", "x86_64" | "aarch64") => Ok(Self::WindowsAMD64),
             (os, arch) => Err(ArchitectureNotSupported {
                 inner: ArchitectureNotSupportedInner::Unknown { os, arch },
             }),
@@ -82,12 +82,20 @@ impl Crate {
 }
 
 macro_rules! match_platform {
-    ($detected:expr; $( ($variant:ident, $os:literal, $arch:literal, $feature:literal, $module:ident) ),* $(,)?) => {
+    (
+        $detected:expr;
+        $(
+            $(#[$attr:meta])*
+            ($variant:ident, $os:literal, $arch:literal, $feature:literal, $module:ident)
+        ),* $(,)?
+    ) => {
         match $detected {
             $(
                 #[cfg(any(all(target_os = $os, target_arch = $arch), feature = $feature))]
+                $(#[$attr])*
                 Crate::$variant => $module::etcd_bin_path().map_err(|_| unreachable!()),
                 #[cfg(not(any(all(target_os = $os, target_arch = $arch), feature = $feature)))]
+                $(#[$attr])*
                 Crate::$variant => Err(ArchitectureNotSupported {
                     inner: ArchitectureNotSupportedInner::Disabled($detected)
                 }),
@@ -109,5 +117,7 @@ pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
         (LinuxPPC64LE,  "linux",    "powerpc64", "linux-powerpc64", etcd_bin_vendored_linux_ppc64le),
         (MacAMD64,      "macos",    "x86_64",    "macos-x86_64",    etcd_bin_vendored_darwin_amd64),
         (WindowsAMD64,  "windows",  "x86_64",    "windows-x86_64",  etcd_bin_vendored_windows_amd64),
+        #[allow(unreachable_patterns)]
+        (WindowsAMD64,  "windows",  "aarch64",   "windows-x86_64",  etcd_bin_vendored_windows_amd64),
     )
 }
