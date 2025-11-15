@@ -38,6 +38,9 @@ etcd-bin-vendored-darwin-arm64 = { workspace = true }
 [target.'cfg(all(target_os = "windows", target_arch = "x86_64"))'.dependencies]
 etcd-bin-vendored-windows-amd64 = { workspace = true }
 
+[target.'cfg(all(target_os = "windows", target_arch = "aarch64"))'.dependencies]
+etcd-bin-vendored-windows-amd64 = { workspace = true }
+
 [features]
 default = []
 linux-x86_64 = ["dep:etcd-bin-vendored-linux-amd64"]
