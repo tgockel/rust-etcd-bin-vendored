@@ -83,3 +83,13 @@ pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
         ("windows",  "aarch64",   "windows-x86_64",  etcd_bin_vendored_windows_amd64),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::etcd_bin_path;
+
+    #[test]
+    fn path_exists() {
+        etcd_bin_path().expect("this should work on the platform");
+    }
+}
