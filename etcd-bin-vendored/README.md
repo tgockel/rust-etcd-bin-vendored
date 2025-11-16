@@ -49,36 +49,31 @@ By default, the platform-specific crate is enabled for the detected target.
 In other words, the [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64] package is a required dependency
 when you are running on MacOS with ARM64 silicon.
 
-You can also select supported platforms manually.
-For example, if you know your system is only ever ARM64 Linux, you can use the platform-specific `etcd_bin_path`
-directly.
-Take care with this, as the binary is always available, but it might not be runnable on your architecture.
-
-| `target_os` | `target_arch` | `feature`         | Crate                                                                |
-|-------------|---------------|-------------------|:---------------------------------------------------------------------|
-| `linux`     | `x86_64`      | `linux-x86_64`    | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
-| `linux`     | `aarch64`     | `linux-aarch64`   | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
-| `linux`     | `powerpc64`   | `linux-powerpc64` | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
-| `linux`     | `s390x`       | `linux-s390x`     | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
-| `macos`     | `x86_64`      | `macos-x86_64`    | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
-| `macos`     | `aarch64`     | `macos-aarch64`   | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
-| `windows`   | `x86_64`      | `windows-x86_64`  | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
+| `target_os` | `target_arch` | Crate                                                                |
+|-------------|---------------|:---------------------------------------------------------------------|
+| `linux`     | `x86_64`      | [`etcd-bin-vendored-linux-amd64`][etcd-bin-vendored-linux-amd64]     |
+| `linux`     | `aarch64`     | [`etcd-bin-vendored-linux-arm64`][etcd-bin-vendored-linux-arm64]     |
+| `linux`     | `powerpc64`   | [`etcd-bin-vendored-linux-ppc64le`][etcd-bin-vendored-linux-ppc64le] |
+| `linux`     | `s390x`       | [`etcd-bin-vendored-linux-s390x`][etcd-bin-vendored-linux-s390x]     |
+| `macos`     | `x86_64`      | [`etcd-bin-vendored-darwin-amd64`][etcd-bin-vendored-darwin-amd64]   |
+| `macos`     | `aarch64`     | [`etcd-bin-vendored-darwin-arm64`][etcd-bin-vendored-darwin-arm64]   |
+| `windows`   | `x86_64`      | [`etcd-bin-vendored-windows-amd64`][etcd-bin-vendored-windows-amd64] |
 
 > **Note: Naming**
 >
-> There is a bit of incongruity between the platform-specific feature names and their respective crate names; e.g.: the
-> `macos-aarch64` feature maps to the `etcd-bin-vendored-darwin-arm64` crate.
-> The reason for this is the features map to the Rust conventions for
+> There is a bit of incongruity between `target_os` and `target_arch` names and their respective crate names; e.g.: the
+> `target_os = "macos"` and `target_arch = "aarch64"` maps to the `etcd-bin-vendored-darwin-arm64` crate.
+> This is because the Rust conventions for
 > [`target_os`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_os) and
-> [`target_arch`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_arch), while the crates map to
+> [`target_arch`](https://doc.rust-lang.org/reference/conditional-compilation.html#target_arch) are different from the
 > [`GOOS` and `GOARCH` platform conventions](https://pkg.go.dev/internal/platform), which `etcd` uses directly.
-> My thinking is that someone using the meta-crate will be more familiar with Rust conventions, while someone looking to
-> pull a specific binary will be more familiar with Go conventions.
+> My thinking is that someone looking to pull a specific binary will be more familiar with Go conventions, so the crates
+> keep the Go suffixes.
 
 ## Versioning
 
 The versions of this library match the `etcd` version.
-So, pulling this library at version `3.6.2` means you get the binaries for etcd release `3.6.2`.
+So, pulling this library at version `3.6.5` means you get the binaries for etcd release `3.6.5`.
 
 ## Caveats
 

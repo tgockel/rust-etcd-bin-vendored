@@ -34,30 +34,10 @@ impl fmt::Debug for ArchitectureNotSupported {
 impl error::Error for ArchitectureNotSupported {}
 
 macro_rules! match_platform {
-    (
-        $detected:expr;
-        $(
-            $(#[$attr:meta])*
-            ($variant:ident, $os:literal, $arch:literal, $feature:literal, $module:ident)
-        ),* $(,)?
-    ) => {
-        match $detected {
-            $(
-                #[cfg(any(all(target_os = $os, target_arch = $arch), feature = $feature))]
-                $(#[$attr])*
-                Crate::$variant => $module::etcd_bin_path().map_err(|_| unreachable!()),
-                #[cfg(not(any(all(target_os = $os, target_arch = $arch), feature = $feature)))]
-                $(#[$attr])*
-                Crate::$variant => Err(ArchitectureNotSupported {
-                    inner: ArchitectureNotSupportedInner::Disabled { go_arch: $detected, feature: $feature }
-                }),
-            )*
-        }
-    };
-    ($(($os:literal, $arch:literal, $feature:literal, $module:ident)),* $(,)?) => {
+    ($(($os:literal, $arch:literal, $module:ident)),* $(,)?) => {
         match (::std::env::consts::OS, ::std::env::consts::ARCH) {
             $(
-                #[cfg(any(all(target_os = $os, target_arch = $arch), feature = $feature))]
+                #[cfg(all(target_os = $os, target_arch = $arch))]
                 ($os, $arch) => $module::etcd_bin_path().map_err(|_| unreachable!()),
             )*
             (os, arch) => Err(ArchitectureNotSupported {
@@ -73,14 +53,14 @@ macro_rules! match_platform {
 /// unsupported platform, an `Err(ArchitectureNotSupported)` is returned with a description of the error.
 pub fn etcd_bin_path() -> Result<&'static Path, ArchitectureNotSupported> {
     match_platform! {
-        ("linux",    "x86_64",    "linux-x86_64",    etcd_bin_vendored_linux_amd64),
-        ("linux",    "aarch64",   "linux-aarch64",   etcd_bin_vendored_linux_arm64),
-        ("linux",    "powerpc64", "linux-powerpc64", etcd_bin_vendored_linux_ppc64le),
-        ("linux",    "s390x",     "linux-s390x",     etcd_bin_vendored_linux_s390x),
-        ("macos",    "x86_64",    "macos-x86_64",    etcd_bin_vendored_darwin_amd64),
-        ("macos",    "aarch64",   "macos-aarch64",   etcd_bin_vendored_darwin_arm64),
-        ("windows",  "x86_64",    "windows-x86_64",  etcd_bin_vendored_windows_amd64),
-        ("windows",  "aarch64",   "windows-x86_64",  etcd_bin_vendored_windows_amd64),
+        ("linux",    "x86_64",    etcd_bin_vendored_linux_amd64),
+        ("linux",    "aarch64",   etcd_bin_vendored_linux_arm64),
+        ("linux",    "powerpc64", etcd_bin_vendored_linux_ppc64le),
+        ("linux",    "s390x",     etcd_bin_vendored_linux_s390x),
+        ("macos",    "x86_64",    etcd_bin_vendored_darwin_amd64),
+        ("macos",    "aarch64",   etcd_bin_vendored_darwin_arm64),
+        ("windows",  "x86_64",    etcd_bin_vendored_windows_amd64),
+        ("windows",  "aarch64",   etcd_bin_vendored_windows_amd64),
     }
 }
 
