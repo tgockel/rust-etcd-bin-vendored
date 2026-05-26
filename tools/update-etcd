@@ -7,7 +7,7 @@ WORKING_DIR="${PROJECT_ROOT}/target/download"
 mkdir -p "${WORKING_DIR}"
 cd "${WORKING_DIR}"
 
-VERSION=$(grep -P '^version =' "${PROJECT_ROOT}/Cargo.toml" | grep -Po '\d+\.\d+\.\d+')
+VERSION=$(grep -Po '^version = "\K[^"]+' "${PROJECT_ROOT}/Cargo.toml")
 
 update_arch() {
   ARCH="$1"
